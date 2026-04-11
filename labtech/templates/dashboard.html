@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="p-4 bg-light rounded">
+    <h1>Lab Tech Dashboard</h1>
+    <p>Manage patients, tests, and lab reports from one place.</p>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Patients</h5>
+                <p class="card-text">Create and manage patient records.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Tests</h5>
+                <p class="card-text">Maintain available lab tests.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Reports</h5>
+                <p class="card-text">Generate and view lab reports.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -20,3 +20,18 @@ class LabReportViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
 # Create your views here.
+def dashboard(request):
+    return render(request, "dashboard.html")
+
+def patient_list(request):
+    patients = Patient.objects.all()
+    return render(request, "patients.html", {"patients": patients})
+
+def test_list(request):
+    tests = Test.objects.all()
+    return render(request, "tests.html", {"tests": tests})
+
+def report_list(request):
+    reports = LabReport.objects.select_related("patient").all()
+    patients = Patient.objects.all()
+    return render(request, "reports.html", {"reports": reports, "patients": patients})
