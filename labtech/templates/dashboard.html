@@ -11,7 +11,7 @@
         <div class="card text-white bg-primary mb-3">
             <div class="card-body">
                 <h5 class="card-title">Patients</h5>
-                <p class="card-text">Create and manage patient records.</p>
+                <a href="{% url 'patients'%}" class="card-text"> Patients records.</a>
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
         <div class="card text-white bg-success mb-3">
             <div class="card-body">
                 <h5 class="card-title">Tests</h5>
-                <p class="card-text">Maintain available lab tests.</p>
+                <a href="{% url 'tests' %}" class="card-text"> lab tests.</a>
             </div>
         </div>
     </div>
@@ -27,7 +27,7 @@
         <div class="card text-white bg-warning mb-3">
             <div class="card-body">
                 <h5 class="card-title">Reports</h5>
-                <p class="card-text">Generate and view lab reports.</p>
+                <a href="{% url 'reports' %}" class="card-text">Generate and view lab reports.</a>
             </div>
         </div>
     </div>

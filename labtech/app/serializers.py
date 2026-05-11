@@ -15,3 +15,9 @@ class LabReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = LabReport
         fields = '__all__'
+#तर ModelSerializer ले:
+
+#fields automatically detect गर्छ ✔️
+#create/update methods बनाइदिन्छ ✔️
+#code छोटो हुन्छ ✔️
+#Serializer = Model data → JSON (API format)
