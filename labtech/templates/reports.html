@@ -1,59 +1,142 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Lab Reports</h2>
-
-<div class="card p-3 mb-4">
-    <form method="post">
-        {% csrf_token %}
-        <div class="row g-3">
-            <div class="col-md-4">
-                <select name="patient" class="form-select">
-                    <option value="">Select Patient</option>
-                    {% for patient in patients %}
-                    <option value="{{ patient.id }}">{{ patient.full_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-4">
-                <select name="test" class="form-select">
-                    <option value="">Select test</option>
-                    {% for test in tests %}
-                    <option value="{{ test.id }}">{{ test.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-12">
-                <textarea name="result" class="form-control" placeholder="result"></textarea>
-            </div>
-            <div class="col-md-12">
-                <textarea name="date_conducted" class="form-control" placeholder="Date"></textarea>
-            </div>
-            <div class="col-md-12">
-                <button class="btn btn-warning">Create Report</button>
-            </div>
-        </div>
-    </form>
+<!-- Page Header -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="display-5 fw-bold text-dark mb-2">
+            <i class="fas fa-file-alt text-warning me-2"></i>Lab Reports
+        </h1>
+        <p class="text-muted">Generate and manage laboratory reports</p>
+    </div>
 </div>
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>Patient</th>
-            <th>Test</th>
-            <th>result</th>
-            <th>Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for report in reports %}
-        <tr>
-            <td>{{ report.patient.full_name }}</td>
-            <td>{{ report.test.name }}</td>
-            <td>{{ report.result }}</td>
-            <td>{{ report.report_date }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<!-- Create Report Form -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-light border-bottom">
+        <h5 class="mb-0 fw-bold">
+            <i class="fas fa-file-medical me-2"></i>Create New Report
+        </h5>
+    </div>
+    <div class="card-body">
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-medium">Select Patient <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-user text-muted"></i></span>
+                        <select name="patient" class="form-select border-start-0" required>
+                            <option value="">Choose a patient...</option>
+                            {% for patient in patients %}
+                            <option value="{{ patient.id }}">{{ patient.full_name }} ({{ patient.email }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-medium">Select Test <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-flask text-muted"></i></span>
+                        <select name="test" class="form-select border-start-0" required>
+                            <option value="">Choose a test...</option>
+                            {% for test in tests %}
+                            <option value="{{ test.id }}">{{ test.name }} (Rs. {{ test.price }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-medium">Date Conducted <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-calendar text-muted"></i></span>
+                        <input type="date" name="date_conducted" class="form-control border-start-0" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-medium">Status</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="fas fa-flag text-muted"></i></span>
+                        <select class="form-select border-start-0">
+                            <option>Completed</option>
+                            <option>Pending</option>
+                            <option>In Progress</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label class="form-label fw-medium">Test Result</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0 align-items-start pt-2"><i class="fas fa-clipboard-check text-muted"></i></span>
+                        <textarea name="result" class="form-control border-start-0" 
+                                  placeholder="Enter detailed test results..." rows="4"></textarea>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-warning btn-lg w-100">
+                        <i class="fas fa-save me-2"></i>Create Report
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Reports Table -->
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-light border-bottom d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-bold">
+            <i class="fas fa-list me-2"></i>Reports List ({{ reports.count }})
+        </h5>
+        <input type="text" class="form-control form-control-sm" style="max-width: 250px;" 
+               placeholder="Search reports..." id="searchReports">
+    </div>
+    <div class="card-body p-0">
+        {% if reports %}
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4"><i class="fas fa-user-circle me-2"></i>Patient</th>
+                        <th><i class="fas fa-flask me-2"></i>Test Name</th>
+                        <th><i class="fas fa-calendar me-2"></i>Date</th>
+                        <th><i class="fas fa-align-left me-2"></i>Result</th>
+                        <th class="text-center pe-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in reports %}
+                    <tr>
+                        <td class="ps-4 fw-medium">{{ report.patient.full_name }}</td>
+                        <td>
+                            <span class="badge bg-info">{{ report.test.name }}</span>
+                        </td>
+                        <td>{{ report.report_date|date:"d M, Y" }}</td>
+                        <td>
+                            <span class="text-muted">{{ report.result|truncatewords:8 }}</span>
+                        </td>
+                        <td class="text-center pe-4">
+                            <button class="btn btn-sm btn-outline-info" title="View">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary" title="Print">
+                                <i class="fas fa-print"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-file-alt fs-1 text-muted mb-3 d-block"></i>
+            <p class="text-muted mb-0">No reports generated yet. Create your first report to get started.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

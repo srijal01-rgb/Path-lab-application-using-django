@@ -1,35 +1,119 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="p-4 bg-light rounded">
-    <h1>Lab Tech Dashboard</h1>
-    <p>Manage patients, tests, and lab reports from one place.</p>
+<!-- Page Header -->
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="page-header">
+            <h1 class="display-5 fw-bold text-dark mb-2">
+                <i class="fas fa-chart-line text-primary me-2"></i>Dashboard
+            </h1>
+            <p class="text-muted">Welcome to Lab Tech - Manage your laboratory efficiently</p>
+        </div>
+    </div>
 </div>
 
-<div class="row mt-4">
-    <div class="col-md-4">
-        <div class="card text-white bg-primary mb-3">
+<!-- Stats Cards -->
+<div class="row g-4 mb-5">
+    <div class="col-md-3 col-sm-6">
+        <div class="stat-card card border-0 shadow-sm hover-lift">
             <div class="card-body">
-                <h5 class="card-title">Patients</h5>
-                <a href="{% url 'patients'%}" class="card-text"> Patients records.</a>
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted small mb-1">Total Patients</p>
+                        <h3 class="mb-0 fw-bold">{{ patients_count|default:"0" }}</h3>
+                    </div>
+                    <div class="stat-icon bg-primary-light">
+                        <i class="fas fa-users text-primary"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card text-white bg-success mb-3">
+    <div class="col-md-3 col-sm-6">
+        <div class="stat-card card border-0 shadow-sm hover-lift">
             <div class="card-body">
-                <h5 class="card-title">Tests</h5>
-                <a href="{% url 'tests' %}" class="card-text"> lab tests.</a>
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted small mb-1">Available Tests</p>
+                        <h3 class="mb-0 fw-bold">{{ tests_count|default:"0" }}</h3>
+                    </div>
+                    <div class="stat-icon bg-success-light">
+                        <i class="fas fa-flask text-success"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card text-white bg-warning mb-3">
+    <div class="col-md-3 col-sm-6">
+        <div class="stat-card card border-0 shadow-sm hover-lift">
             <div class="card-body">
-                <h5 class="card-title">Reports</h5>
-                <a href="{% url 'reports' %}" class="card-text">Generate and view lab reports.</a>
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted small mb-1">Reports Generated</p>
+                        <h3 class="mb-0 fw-bold">{{ reports_count|default:"0" }}</h3>
+                    </div>
+                    <div class="stat-icon bg-warning-light">
+                        <i class="fas fa-file-alt text-warning"></i>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="stat-card card border-0 shadow-sm hover-lift">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted small mb-1">Pending Reports</p>
+                        <h3 class="mb-0 fw-bold">{{ pending_reports|default:"0" }}</h3>
+                    </div>
+                    <div class="stat-icon bg-danger-light">
+                        <i class="fas fa-clock text-danger"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row g-4">
+    <div class="col-md-6 col-lg-3">
+        <a href="{% url 'patients' %}" class="action-card card border-0 shadow-sm text-decoration-none">
+            <div class="card-body text-center py-4">
+                <i class="fas fa-user-plus fs-1 text-primary mb-3"></i>
+                <h5 class="card-title mb-2">Add Patient</h5>
+                <p class="text-muted small">Register new patient</p>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <a href="{% url 'tests' %}" class="action-card card border-0 shadow-sm text-decoration-none">
+            <div class="card-body text-center py-4">
+                <i class="fas fa-plus-circle fs-1 text-success mb-3"></i>
+                <h5 class="card-title mb-2">Add Test</h5>
+                <p class="text-muted small">Create new lab test</p>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <a href="{% url 'reports' %}" class="action-card card border-0 shadow-sm text-decoration-none">
+            <div class="card-body text-center py-4">
+                <i class="fas fa-file-medical fs-1 text-warning mb-3"></i>
+                <h5 class="card-title mb-2">Generate Report</h5>
+                <p class="text-muted small">Create lab report</p>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <a href="{% url 'reports' %}" class="action-card card border-0 shadow-sm text-decoration-none">
+            <div class="card-body text-center py-4">
+                <i class="fas fa-search fs-1 text-info mb-3"></i>
+                <h5 class="card-title mb-2">View Reports</h5>
+                <p class="text-muted small">Browse all reports</p>
+            </div>
+        </a>
     </div>
 </div>
 {% endblock %}
